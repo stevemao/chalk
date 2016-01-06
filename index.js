@@ -31,19 +31,15 @@ var styles = (function () {
 	return ret;
 })();
 
-var proto = defineProps(function chalk() {}, styles);
-
 function build(_styles) {
 	var builder = function () {
 		return applyStyle.apply(builder, arguments);
 	};
 
+	defineProps(builder, styles);
+
 	builder._styles = _styles;
 	builder.enabled = this.enabled;
-	// __proto__ is used because we must return a function, but there is
-	// no way to create a function with a different prototype.
-	/* eslint-disable no-proto */
-	builder.__proto__ = proto;
 
 	return builder;
 }
